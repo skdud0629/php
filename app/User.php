@@ -1,5 +1,14 @@
 <?php
-namespace App;
-protected $fillable = ['name', 'email', 'password']; //? 왜 에러나지
 
-protected $hidden = ['password', 'remember_token'];
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class User extends Model
+{
+
+    public function articles()
+    {
+        return $this -> hasMany(Article::class);
+    }
+}

@@ -56,4 +56,35 @@ Route::get('/', function () {
     return view ('welcome', compact('items'));
 });
 
+
+//여기서부터 사용자 인증
 Route::get('/','WelcomeController@index');
+
+Route::get('/auth/lgoin', function(){
+    $credentials = [
+        'email'=> 'john@example.com',
+        'password'=>'password'];
+    if (!auth()->attempt($credentials)) {
+        return '인증 실패';
+    }
+    return redirect('protected');
+});
+
+Route::get('protected', function () {
+    dump(session()->all());
+    if (!(auth()->check())) {
+        return '누구세요';
+    }
+    return '어서오세요';
+});
+
+Route::get('/auth/logout', function () {
+    auth()->logout();
+    return '로그아웃 되었습니다.';
+});
+
+//auth 미들웨어
+Route::get('protected', ['middleware' => 'auth', function () {
+    dump(session()->all());
+    return '어서오세요';
+}]);
