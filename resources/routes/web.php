@@ -147,4 +147,4 @@ Route::get('/', function () {
 });
 
 
-
+Route::resource('articles','ArticleController');
