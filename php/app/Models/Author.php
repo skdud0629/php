@@ -12,4 +12,9 @@ class Author extends Model
     public $timestamps = false;
     protected $fillable = ['email', 'password'];
 
+    public function authors()
+    {
+        return $this->belongsTo(User::class,'author_id');
+    }
+
 }
