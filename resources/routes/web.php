@@ -178,3 +178,11 @@ Route::get('/auth/logout', function () {
 Route::get('protected', ['middleware' => 'auth', function () {
   //if 절 삭제
 }]);
+
+Route::resource('articles', 'ArticleController');
+
+DB::listen(function ($query) {
+    var_dump($query->sql);
+});
+
+Route::resource('articles', 'ArticleController');

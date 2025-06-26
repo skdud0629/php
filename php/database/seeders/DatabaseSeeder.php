@@ -13,6 +13,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+
+        if (cojfig('database.default')!=='sqlite'){
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        }
+
+        App\Models\User::truncate();
+        $this->call (UsersTableSeeder::class);
+        App\Models\Post::truncate();
+        $this->call (PostsTableSeeder::class);
+
+        if(config('database.default')!=='sqlite'){
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        }
     }
 }

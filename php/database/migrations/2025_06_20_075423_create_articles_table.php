@@ -11,6 +11,17 @@ class CreateArticlesTable extends Migration
      *
      * @return void
      */
+    public function run(){
+        $users= App\User::all();
+        foreach ($users as $user) {
+            $user->articles()->create([
+                'title' => 'Sample Article Title',
+                'content' => 'This is a sample article content.',
+            ]);
+        }
+    }
+
+
     public function up()
     {
         Schema::create('articles', function (Blueprint $table) {
