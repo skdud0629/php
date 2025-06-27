@@ -38,4 +38,23 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    public function report(Throwable $e)
+    {
+        return parent::render($e);
+    }
+
+    public function render($request, Throwable $e)
+    {
+        if( app()->environment('production')){
+            if ($e instanceof \Illuminate\Database\QueryException) {
+                return response()->json(['error' => 'Database error'], 500);
+            }
+        }
+        if ($e instanceof \Illuminate\Database\Eloquent\ModelNotFoundException) {
+            return response()->json(['error' => 'Resource not found'], 404);
+        }
+
+        return parent::render($request, $e);
+    }
 }

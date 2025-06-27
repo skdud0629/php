@@ -27,6 +27,25 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        parent::boot();
+        \app\Models\Event::listen('article.created', function ($article) {
+            var_dump($article);
+            var_dump($article->author);
+        });
     }
+
+    public function handle(\App\Articles\Events\ArticleCreated $event)
+    {
+        // Handle the event
+        $article = $event->article;
+        var_dump($article);
+        var_dump($article->author);
+    }
+
+    protected $listeners = [
+        \App\Articles\Events\ArticleCreated::class => [
+            \App\Articles\Listeners\SendArticleCreatedNotification::class,
+        ],
+    ];
+
 }

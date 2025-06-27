@@ -17,59 +17,62 @@ class ArticlesController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-  /*  public function index()
-    {
-        //
-        return __METHOD__ . " 은 Article 컬렉션을 조회합니다.";
-    }*/
+    /*  public function index()
+      {
+          //
+          return __METHOD__ . " 은 Article 컬렉션을 조회합니다.";
+      }*/
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-  /*  public function create()
-    {
-        return __METHOD__ . " 은 Article 컬렉션을 만들기 위한 폼을 담은 뷰를 반환합니다";
-    }*/
+    /*  public function create()
+      {
+          return __METHOD__ . " 은 Article 컬렉션을 만들기 위한 폼을 담은 뷰를 반환합니다";
+      }*/
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-   /* public function store(Request $request)
-    {
-        return __METHOD__ . " 은 사용자의 입력한 폼 데이터로 새로운 Article 컬렉션을 생성합니다.";
-    }*/
+    /* public function store(Request $request)
+     {
+         return __METHOD__ . " 은 사용자의 입력한 폼 데이터로 새로운 Article 컬렉션을 생성합니다.";
+     }*/
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        return __METHOD__ . " 은 다음 기본키를 가진 모델을 조회합니다.".$id;
+        $article = \App\Models\Article::find($id);
+        dd($article);
+        return $article->toArray();
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        return __METHOD__ . " 은 다음 기본키를 가진 모델을 수정하는 폼을 반환합니다.".$id;
+        return __METHOD__ . " 은 다음 기본키를 가진 모델을 수정하는 폼을 반환합니다." . $id;
     }
+
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -80,19 +83,23 @@ class ArticlesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        return __METHOD__ . " 은 다음 기본키를 가진 모델을 삭제합니다.". $id;
+        return __METHOD__ . " 은 다음 기본키를 가진 모델을 삭제합니다." . $id;
     }
 
-    public function index(){
+    public function index()
+    {
         $articles = \App\Models\Article::all();
+        dd(view('articles.index', ['articles' => $articles]));
+        return view('articles.index', ['articles' => $articles]);
     }
 
-    public function load(){
+    public function load()
+    {
         $articles = \App\Models\Article::get();
         $articles->load('user'); // Eager loading
         return view('articles.index', ['articles' => $articles]);
@@ -107,7 +114,7 @@ class ArticlesController extends Controller
 
     public function store(Request $request)
     {
-      $rules = [
+        $rules = [
             'title' => 'required|string|max:255',
             'content' => 'required|string',
         ];

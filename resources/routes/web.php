@@ -186,3 +186,20 @@ DB::listen(function ($query) {
 });
 
 Route::resource('articles', 'ArticleController');
+
+Event::listen('article.created', function ($article) {
+    // Article created event logic
+    var_dump($article);
+    var_dump($article->author);
+});
+
+Route::get('mail', function () {
+    $user = \App\Models\User::find(1);
+    \Illuminate\Support\Facades\Mail::to($user)->send(new \App\Mail\WelcomeMail($user));
+    return Mail::send('emails.welcome', ['user' => $user], function ($message) use ($user) {
+        $message->to($user->email, $user->name)
+                ->subject('Welcome to Our Application');
+    });
+});
+
+

@@ -15,7 +15,9 @@ class ArticlesController extends Controller
 
     public function store(Request $request)
     {
-        return __METHOD__ . " 은 다음 데이터를 저장합니다: " . json_encode($request->all());
+        $article = \App\User::find(1)->articles()->create($request->all());
+        event(new \App\Events\ArticlesCreated($article));
+        return __METHOD__ . " 은 새로운 모델을 저장합니다: " . json_encode($request->all());
     }
     public function show($id)
     {
