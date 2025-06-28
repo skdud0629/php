@@ -20,5 +20,5 @@
             <button type="submit" class="btn btn-primary">글쓰기</button>
             <a href="{{ route('articles.index') }}" class="btn btn-secondary">목록으로</a>
         </div>
-
     </form>
+

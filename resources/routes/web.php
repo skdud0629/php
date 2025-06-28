@@ -282,4 +282,7 @@ Route::get('auth/confirm', function () {
     return view('auth.passwords.confirm');
 });
 
+Route::get('socialal/{provider}', function ($provider) {
+    return Socialite::driver($provider)->redirect();
+});
 

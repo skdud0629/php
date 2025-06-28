@@ -30,4 +30,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'github' => [
+        'client_id' => env('skdud0629'),
+        'client_secret' => env('9d9288b336505408dna41b0c3f8d1e4'),
+        'redirect' => env('https://php.dev:8000/social/github'),
+    ],
+
 ];

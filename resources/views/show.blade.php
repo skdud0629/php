@@ -22,3 +22,23 @@
         @endif
     </div>
     @stop
+
+    @section('script')
+        <script>
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: '{{ route('articles.show', $article->id) }}',
+                type: 'GET',
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
+        </script>
+@stop

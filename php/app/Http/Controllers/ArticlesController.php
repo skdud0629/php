@@ -50,12 +50,12 @@ class ArticlesController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+  /*  public function show($id)
     {
         $article = \App\Models\Article::find($id);
         dd($article);
         return $article->toArray();
-    }
+    }*/
 
     /**
      * Show the form for editing the specified resource.
@@ -125,5 +125,10 @@ class ArticlesController extends Controller
         $article->content = $request->input('content');
 
         return redirect()->route('articles.index')->with('success', 'Article created successfully.');
+    }
+
+    public function show(\App\Article $article)
+    {
+        return view('articles.show', compact('article'));
     }
 }
