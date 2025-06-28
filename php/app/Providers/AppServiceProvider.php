@@ -13,7 +13,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->environment() !== 'local') {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
     }
 
     /**

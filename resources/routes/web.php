@@ -202,4 +202,25 @@ Route::get('mail', function () {
     });
 });
 
+Route::get('markdown',function(){
+    $text =<<<EOT
 
+EOT;
+return app(ParsedownExtra::class)->text($text);
+});
+
+Route::get('docs/{file}', function ($file) {
+  $text = (new App\Documentation)->get($file);
+    if (!$text) {
+        abort(404, 'Documentation not found');
+    }
+    return app(ParsedownExtra::class)->text($text);
+})->where('file', '[a-zA-Z0-9\-_]+');
+
+Route::get('docs/{file}', function ($file) {
+    $text = (new App\Documentation)->get($file);
+    if (!$text) {
+        abort(404, 'Documentation not found');
+    }
+    return app(ParsedownExtra::class)->text($text);
+})->where('file', '[a-zA-Z0-9\-_]+');

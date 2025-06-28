@@ -91,9 +91,9 @@ class ArticlesController extends Controller
         return __METHOD__ . " 은 다음 기본키를 가진 모델을 삭제합니다." . $id;
     }
 
-    public function index()
+    public function index($id)
     {
-        $articles = \App\Models\Article::all();
+        $articles = \App\Models\Article::findOrFail($id);
         dd(view('articles.index', ['articles' => $articles]));
         return view('articles.index', ['articles' => $articles]);
     }

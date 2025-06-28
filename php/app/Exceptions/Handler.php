@@ -50,9 +50,13 @@ class Handler extends ExceptionHandler
             if ($e instanceof \Illuminate\Database\QueryException) {
                 return response()->json(['error' => 'Database error'], 500);
             }
-        }
-        if ($e instanceof \Illuminate\Database\Eloquent\ModelNotFoundException) {
-            return response()->json(['error' => 'Resource not found'], 404);
+
+            if ($e instanceof \Illuminate\Database\Eloquent\ModelNotFoundException) {
+                return response()->json(['error' => 'Resource not found'], 404);
+            }
+
+            return response(['error' => 'An unexpected error occurred'], 500)
+                ->header('Content-Type', 'application/json');
         }
 
         return parent::render($request, $e);
