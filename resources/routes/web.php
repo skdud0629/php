@@ -224,3 +224,62 @@ Route::get('docs/{file}', function ($file) {
     }
     return app(ParsedownExtra::class)->text($text);
 })->where('file', '[a-zA-Z0-9\-_]+');
+
+Route::auth();
+
+Route::get('auth/register', function () {
+    return view('auth.register');
+});
+
+Route::post('auth/register', function (Illuminate\Http\Request $request) {
+    $data = $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|string|email|max:255|unique:users',
+        'password' => 'required|string|min:6|confirmed',
+    ]);
+
+    $user = \App\Models\User::create([
+        'name' => $data['name'],
+        'email' => $data['email'],
+        'password' => bcrypt($data['password']),
+    ]);
+
+    auth()->login($user);
+    return redirect()->route('home');
+});
+
+Route::get('auth/login', function () {
+    return view('auth.login');
+});
+
+Route::post('auth/logout',[
+    'as' => 'logout',
+    function () {
+        auth()->logout();
+        return redirect()->route('home');
+    }
+]);
+
+Route::get('auth/login', function () {
+    return view('auth.login');
+});
+
+Route::get('reminder', function () {
+    return view('auth.passwords.email');
+});
+
+Route::post('reminder', function (Illuminate\Http\Request $request) {
+    $request->validate(['email' => 'required|email']);
+    $user = \App\Models\User::where('email', $request->input('email'))->first();
+    if (!$user) {
+        return back()->withErrors(['email' => '이메일 주소가 등록되어 있지 않습니다.']);
+    }
+    // 비밀번호 재설정 링크 전송 로직
+    return back()->with('status', '비밀번호 재설정 링크가 이메일로 전송되었습니다.');
+});
+
+Route::get('auth/confirm', function () {
+    return view('auth.passwords.confirm');
+});
+
+
